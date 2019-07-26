@@ -6,10 +6,9 @@ var filmList = document.getElementById("filmList");
 
 const filmReq = new XMLHttpRequest();
 const oReq = new XMLHttpRequest();
-const p4HWReq = new XMLHttpRequest();
-const p14Req = new XMLHttpRequest();
-const p14SpeciesReq = new XMLHttpRequest();
 
+const p14Req = new XMLHttpRequest();
+console.log(p14Req)
 function filmListner() {
   for (let i = 0; i < this.response.results.length; i++) {
     var films = document.createElement("li");
@@ -30,41 +29,42 @@ function filmListner() {
     }
   }
 }
-
-function p14SpeciesListener() {
-  p14Species.innerText = this.response.name;
-}
-
 function p14Listener() {
-  p14.innerText = this.response.name;
+  var p14Response = JSON.parse(this.responseText)
+  console.log(p14Response)
+  p14.innerText = p14Response.name;
+  const p14SpeciesReq = new XMLHttpRequest();
+  function p14SpeciesListener() {
+    p14Species.innerText = this.response.name;
+  }
+p14SpeciesReq.addEventListener("load", p14SpeciesListener);
+p14SpeciesReq.responseType = "json";
+p14SpeciesReq.open("GET", p14Response.species);
+p14SpeciesReq.send();
 }
 
-function HW4() {
-  p4HW.innerText = this.response.name;
-}
+
 function reqListner() {
-  p4.innerText = this.response.name;
+  var p4response = JSON.parse
+(this.responseText)
+  p4.innerText = p4response.name;
+  const p4HWReq = new XMLHttpRequest();
+  function HW4() {
+    p4HW.innerText = p4HWReq.response.name
+  }
+  p4HWReq.addEventListener("load", HW4);
+p4HWReq.responseType = "json";
+p4HWReq.open("GET", p4response.homeworld);
+p4HWReq.send();
 }
 
 oReq.addEventListener("load", reqListner);
-oReq.responseType = "json";
 oReq.open("GET", "https://swapi.co/api/people/4/");
 oReq.send();
 
-p4HWReq.addEventListener("load", HW4);
-p4HWReq.responseType = "json";
-p4HWReq.open("GET", "https://swapi.co/api/planets/1/");
-p4HWReq.send();
-
 p14Req.addEventListener("load", p14Listener);
-p14Req.responseType = "json";
 p14Req.open("GET", "https://swapi.co/api/people/14/");
 p14Req.send();
-
-p14SpeciesReq.addEventListener("load", p14SpeciesListener);
-p14SpeciesReq.responseType = "json";
-p14SpeciesReq.open("GET", "https://swapi.co/api/species/1/");
-p14SpeciesReq.send();
 
 filmReq.addEventListener("load", filmListner);
 filmReq.responseType = "json";
